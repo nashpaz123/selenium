@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            label 'dockermaven'
+            label 'jenkins-jnlp-with-docker'
         }
     }
     stages { 	
