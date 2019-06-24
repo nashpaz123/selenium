@@ -24,7 +24,9 @@ pipeline {
                                 // a directory 'search' is created for container test-output
                                 sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=firefox -e MODULE=search-module.xml -v ${WORKSPACE}/search:/usr/share/tag/test-output --network ${network} nashpaz1/containertest"
                                 //archive all the files under 'search' directory
+                                sh "sleep 5"
                                 archiveArtifacts artifacts: 'search/**', fingerprint: true
+                                sh "sleep 5"
                                 println "org.openqa.selenium.remote.ProtocolHandshake createSession"
                                 println "INFO: Detected dialect: W3C"
                                 println "Browser launched and navigated to https://shop.demoqa.com/ page"
@@ -47,12 +49,15 @@ pipeline {
                                 println "Total tests run: 11, Failures: 1, Skips: 0"
                                 println "Configuration Failures: 1, Skips: 0"
                                 println "==============================================="
+                                sh "sleep 5"
                             },
                             "order-module":{
                                 // a directory 'order' is created for container test-output
                                 sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=chrome -e MODULE=order-module.xml -v ${WORKSPACE}/order:/usr/share/tag/test-output  --network ${network} nashpaz1/containertest"
+                                sh "sleep 5"
                                 //archive all the files under 'order' directory
                                 archiveArtifacts artifacts: 'order/**', fingerprint: true
+                                sh "sleep 5"
                                 println "Browser launched and navigated to Google"
                                 println "test automation guru - entered for search"
                                 println "Browser launched and navigated to Google"
@@ -79,6 +84,7 @@ pipeline {
                                 println "Total tests run: 11, Failures: 1, Skips: 0"
                                 println "Configuration Failures: 1, Skips: 0"
                                 println "==============================================="
+                                sh "sleep 5"
                             }
                     )
                 }
