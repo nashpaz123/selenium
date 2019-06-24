@@ -7,7 +7,7 @@ pipeline {
     stages { 	
         stage('Build Jar') {
             steps {
-                sh 'whoami'
+                sh 'source /etc/profile.d/maven.sh'
                 sh 'mvn clean package -DskipTests'
             }
         }
