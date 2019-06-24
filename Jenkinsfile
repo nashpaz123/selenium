@@ -7,8 +7,7 @@ pipeline {
     stages { 	
         stage('Build Jar') {
             steps {
-                sh 'source /etc/profile.d/maven.sh'
-                sh 'mvn clean package -DskipTests'
+                sh '/opt/apache-maven-3.6.0/bin/mvn clean package -DskipTests'
             }
         }
         stage('Build Image') {
