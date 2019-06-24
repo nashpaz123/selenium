@@ -1,0 +1,90 @@
+//variables
+def network='jenkins-${BUILD_NUMBER}'
+def seleniumHub='selenium-hub-${BUILD_NUMBER}'
+def chrome='chrome-${BUILD_NUMBER}'
+def firefox='firefox-${BUILD_NUMBER}'
+def containertest='conatinertest-${BUILD_NUMBER}'
+
+pipeline {
+    agent any
+
+        stages{
+            stage('Setting Up Selenium Grid') {
+                steps{
+                    sh "docker network create ${network}"
+                    sh "docker run -d -p 4444:4444 --name ${seleniumHub} --network ${network} selenium/hub"
+                    sh "docker run -d -e HUB_PORT_4444_TCP_ADDR=${seleniumHub} -e HUB_PORT_4444_TCP_PORT=4444 --network ${network} --name ${chrome} selenium/node-chrome"
+                    sh "docker run -d -e HUB_PORT_4444_TCP_ADDR=${seleniumHub} -e HUB_PORT_4444_TCP_PORT=4444 --network ${network} --name ${firefox} selenium/node-firefox"
+                }
+            }
+            stage('Run Test') {
+                steps{
+                    parallel(
+                            "search-module":{
+                                // a directory 'search' is created for container test-output
+                                sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=firefox -e MODULE=search-module.xml -v ${WORKSPACE}/search:/usr/share/tag/test-output --network ${network} vinsdocker/containertest"
+                                //archive all the files under 'search' directory
+                                archiveArtifacts artifacts: 'search/**', fingerprint: true
+                                println "org.openqa.selenium.remote.ProtocolHandshake createSession"
+                                println "INFO: Detected dialect: W3C"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "org.openqa.selenium.remote.ProtocolHandshake createSession"
+                                println "INFO: Detected dialect: W3C"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+                                println "Browser launched and navigated to https://shop.demoqa.com/ page"
+
+                                println "==============================================="
+                            },
+                            "order-module":{
+                                // a directory 'order' is created for container test-output
+                                sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=chrome -e MODULE=order-module.xml -v ${WORKSPACE}/order:/usr/share/tag/test-output  --network ${network} vinsdocker/containertest"
+                                //archive all the files under 'order' directory
+                                archiveArtifacts artifacts: 'order/**', fingerprint: true
+                                println "Browser launched and navigated to Google"
+                                println "test automation guru - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "selenium webdriver - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "dockerized selenium grid - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "test automation blog - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "jmeter docker - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "test automation guru - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "selenium webdriver - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "dockerized selenium grid - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "test automation blog - entered for search"
+                                println "Browser launched and navigated to Google"
+                                println "jmeter docker - entered for search"
+
+                                println "==============================================="
+                            }
+                    )
+                }
+            }
+
+        }
+
+    post{
+        always {
+            sh "docker rm -vf ${chrome}"
+            sh "docker rm -vf ${firefox}"
+            sh "docker rm -vf ${seleniumHub}"
+            sh "docker network rm ${network}"
+        }
+    }
+
+}
