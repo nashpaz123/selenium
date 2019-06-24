@@ -7,14 +7,14 @@ pipeline {
     stages { 	
         stage('Build Jar') {
             steps {
+                sh 'whoami'
                 sh 'mvn clean package -DskipTests'
             }
         }
         stage('Build Image') {
             steps {
                 script {
-                    s
-                	app = docker.build("nashpaz1/containertest")
+                    app = docker.build("nashpaz1/containertest")
                 }
             }
         }
