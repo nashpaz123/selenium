@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            label 'docker' && 'maven'
+            label 'dockermaven'
         }
     }
     stages { 	
@@ -13,6 +13,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
+                    s
                 	app = docker.build("nashpaz1/containertest")
                 }
             }
