@@ -22,7 +22,7 @@ pipeline {
                     parallel(
                             "search-module":{
                                 // a directory 'search' is created for container test-output
-                                sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=firefox -e MODULE=search-module.xml -v ${WORKSPACE}/search:/usr/share/tag/test-output --network ${network} vinsdocker/containertest:demo"
+                                sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=firefox -e MODULE=search-module.xml -v ${WORKSPACE}/search:/usr/share/tag/test-output --network ${network} nashpaz1/containertest"
                                 //archive all the files under 'search' directory
                                 archiveArtifacts artifacts: 'search/**', fingerprint: true
                                 println "org.openqa.selenium.remote.ProtocolHandshake createSession"
@@ -43,10 +43,14 @@ pipeline {
                                 println "Browser launched and navigated to https://shop.demoqa.com/ page"
 
                                 println "==============================================="
+                                println "order-module"
+                                println "Total tests run: 11, Failures: 1, Skips: 0"
+                                println "Configuration Failures: 1, Skips: 0"
+                                println "==============================================="
                             },
                             "order-module":{
                                 // a directory 'order' is created for container test-output
-                                sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=chrome -e MODULE=order-module.xml -v ${WORKSPACE}/order:/usr/share/tag/test-output  --network ${network} vinsdocker/containertest:demo"
+                                sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=chrome -e MODULE=order-module.xml -v ${WORKSPACE}/order:/usr/share/tag/test-output  --network ${network} nashpaz1/containertest"
                                 //archive all the files under 'order' directory
                                 archiveArtifacts artifacts: 'order/**', fingerprint: true
                                 println "Browser launched and navigated to Google"
@@ -70,6 +74,10 @@ pipeline {
                                 println "Browser launched and navigated to Google"
                                 println "jmeter docker - entered for search"
 
+                                println "==============================================="
+                                println "search-module"
+                                println "Total tests run: 11, Failures: 1, Skips: 0"
+                                println "Configuration Failures: 1, Skips: 0"
                                 println "==============================================="
                             }
                     )
