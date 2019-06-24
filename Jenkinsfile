@@ -49,13 +49,13 @@ pipeline {
                 parallel(
                         "search-module":{
                             // a directory 'search' is created for container test-output
-                            sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=firefox -e MODULE=search-module.xml -v ${WORKSPACE}/search:/usr/share/tag/test-output --network ${network} vinsdocker/containertest"
+                            sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=firefox -e MODULE=search-module.xml -v ${WORKSPACE}/search:/usr/share/tag/test-output --network ${network} nashpaz1/containertest"
                             //archive all the files under 'search' directory
                             archiveArtifacts artifacts: 'search/**', fingerprint: true
                         },
                         "order-module":{
                             // a directory 'order' is created for container test-output
-                            sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=chrome -e MODULE=order-module.xml -v ${WORKSPACE}/order:/usr/share/tag/test-output  --network ${network} vinsdocker/containertest"
+                            sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=chrome -e MODULE=order-module.xml -v ${WORKSPACE}/order:/usr/share/tag/test-output  --network ${network} nashpaz1/containertest"
                             //archive all the files under 'order' directory
                             archiveArtifacts artifacts: 'order/**', fingerprint: true
                         }
