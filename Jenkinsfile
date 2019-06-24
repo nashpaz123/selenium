@@ -14,6 +14,9 @@ pipeline {
     stages {
         stage('Build Jar') {
             steps {
+                cleanWs()
+                checkout scm
+
                 sh '/opt/apache-maven-3.6.0/bin/mvn clean package -DskipTests'
             }
         }
@@ -62,14 +65,14 @@ pipeline {
                 )
             }
         }
-        stage('Tearing Down Selenium Grid') {
-            steps {
-                //remove all the containers and volumes
-                sh "docker rm -vf ${chrome}"
-                sh "docker rm -vf ${firefox}"
-                sh "docker rm -vf ${seleniumHub}"
-                sh "docker network rm ${network}"
-            }
+
+    }
+    post{
+        always {
+            sh "docker rm -vf ${chrome}"
+            sh "docker rm -vf ${firefox}"
+            sh "docker rm -vf ${seleniumHub}"
+            sh "docker network rm ${network}"
         }
     }
 
