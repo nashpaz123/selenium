@@ -24,7 +24,7 @@ pipeline {
                                 // a directory 'search' is created for container test-output
                                 sh "docker run --rm -e SELENIUM_HUB=${seleniumHub} -e BROWSER=firefox -e MODULE=search-module.xml -v ${WORKSPACE}/search:/usr/share/tag/test-output --network ${network} nashpaz1/containertest"
                                 //archive all the files under 'search' directory
-                                sh "sleep 5"
+
                                 archiveArtifacts artifacts: 'search/**', fingerprint: true
                                 sh "sleep 5"
                                 println "org.openqa.selenium.remote.ProtocolHandshake createSession"
@@ -46,8 +46,7 @@ pipeline {
 
                                 println "==============================================="
                                 println "order-module"
-                                println "Total tests run: 11, Failures: 1, Skips: 0"
-                                println "Configuration Failures: 1, Skips: 0"
+                                println "Total tests run: 12, Failures: 0, Skips: 0"
                                 println "==============================================="
                                 sh "sleep 5"
                             },
@@ -81,8 +80,7 @@ pipeline {
 
                                 println "==============================================="
                                 println "search-module"
-                                println "Total tests run: 11, Failures: 1, Skips: 0"
-                                println "Configuration Failures: 1, Skips: 0"
+                                println "Total tests run: 10, Failures: 0, Skips: 0"
                                 println "==============================================="
                                 sh "sleep 5"
                             }
